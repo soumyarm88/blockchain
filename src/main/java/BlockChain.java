@@ -3,13 +3,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BlockChain {
@@ -46,7 +46,10 @@ public class BlockChain {
         Block block;
         while (iterator.hasNext()) {
             block = iterator.next();
-            if (!Objects.equals(block.getPreviousHash(), previousBlock.getHash())) {
+            if (!StringUtils.equals(block.getPreviousHash(), previousBlock.getHash())) {
+                return false;
+            }
+            if (!StringUtils.equals(block.calculateHash(), block.getHash())) {
                 return false;
             }
             previousBlock = block;

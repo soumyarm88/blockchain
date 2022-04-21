@@ -26,10 +26,17 @@ public class BlockChainTest {
         BlockChain blockChain = new BlockChain();
 
         // TimeUnit.SECONDS.sleep(2);
+        Block previousBlock = blockChain.getLatestBlock();
+        blockChain.addBlock(Block.builder().index(1).timeStamp(new Date()).data(firstData)
+                .previousHash(previousBlock.getHash()).build());
 
-        blockChain.addBlock(Block.builder().index(1).timeStamp(new Date()).data(firstData).build());
-        blockChain.addBlock(Block.builder().index(2).timeStamp(new Date()).data(secondData).build());
-        blockChain.addBlock(Block.builder().index(3).timeStamp(new Date()).data(thirdData).build());
+        previousBlock = blockChain.getLatestBlock();
+        blockChain.addBlock(Block.builder().index(2).timeStamp(new Date()).data(secondData)
+                .previousHash(previousBlock.getHash()).build());
+
+        previousBlock = blockChain.getLatestBlock();
+        blockChain.addBlock(Block.builder().index(3).timeStamp(new Date()).data(thirdData)
+                .previousHash(previousBlock.getHash()).build());
 
         assertEquals(thirdData, blockChain.getLatestBlock().getData());
         assertTrue(blockChain.isChainValid());
@@ -46,6 +53,12 @@ public class BlockChainTest {
     @Test
     public void checkModifiedChainIsInvalid() {
         BlockChain blockChain = loadChainFromStorage("InvalidChainWithMissingBlock.js");
+        assertFalse(blockChain.isChainValid());
+    }
+
+    @Test
+    public void checkModifiedDataIsInvalid() {
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedData.js");
         assertFalse(blockChain.isChainValid());
     }
 

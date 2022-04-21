@@ -24,6 +24,8 @@ public class Block {
     }
 
     String calculateHash() {
+        //System.out.println(this.index + this.getPreviousHash() + this.timeStamp.getTime() + this.data);
+
         return Hashing.sha256().hashString(
                 this.index + this.getPreviousHash() + this.timeStamp.getTime() + this.data, StandardCharsets.UTF_8)
                 .toString();
