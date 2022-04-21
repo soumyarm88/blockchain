@@ -62,6 +62,12 @@ public class BlockChainTest {
         assertFalse(blockChain.isChainValid());
     }
 
+    @Test
+    public void checkModifiedDateIsInvalid() {
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedDate.js");
+        assertFalse(blockChain.isChainValid());
+    }
+
     private BlockChain loadChainFromStorage(String fileName) {
         Path path = Path.of(RESOURCES_PATH,fileName);
         String serializedChain = null;
