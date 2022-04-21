@@ -1,28 +1,62 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BlockChainTest {
+    public static final String RESOURCES_PATH = "/Users/soumyarm/IdeaProjects/BlockChain/src/test/resources";
+
     @Test
     public void testNewChainHasGenesisBlockOnly() {
         BlockChain blockChain = new BlockChain();
+
         assertEquals("GenesisBlock", blockChain.getLatestBlock().getData());
         assertTrue(blockChain.isChainValid());
     }
 
     @Test
     public void testAddingFewBlocks() {
-        String firstData = "First piece of data!!";
-        String secondData = "I was just a bit late!!";
+        String firstData = "First";
+        String secondData = "Second";
+        String thirdData = "Third";
         BlockChain blockChain = new BlockChain();
 
-        blockChain.addBlock(Block.builder().index(1).data(firstData).build());
-        assertEquals(firstData, blockChain.getLatestBlock().getData());
+        // TimeUnit.SECONDS.sleep(2);
 
-        blockChain.addBlock(Block.builder().index(2).data(secondData).build());
-        assertEquals(secondData, blockChain.getLatestBlock().getData());
+        blockChain.addBlock(Block.builder().index(1).timeStamp(new Date()).data(firstData).build());
+        blockChain.addBlock(Block.builder().index(2).timeStamp(new Date()).data(secondData).build());
+        blockChain.addBlock(Block.builder().index(3).timeStamp(new Date()).data(thirdData).build());
 
+        assertEquals(thirdData, blockChain.getLatestBlock().getData());
         assertTrue(blockChain.isChainValid());
+
+        // System.out.println(blockChain.printChain());
+    }
+
+    @Test
+    public void checkOriginalChainIsValid() {
+        BlockChain blockChain = loadChainFromStorage("SampleValidChain.js");
+        assertTrue(blockChain.isChainValid());
+    }
+
+    @Test
+    public void checkModifiedChainIsInvalid() {
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithMissingBlock.js");
+        assertFalse(blockChain.isChainValid());
+    }
+
+    private BlockChain loadChainFromStorage(String fileName) {
+        Path path = Path.of(RESOURCES_PATH,fileName);
+        String serializedChain = null;
+        try {
+            serializedChain = Files.readString(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return BlockChain.loadChain(serializedChain);
     }
 }

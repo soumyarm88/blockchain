@@ -1,6 +1,11 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
+import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,6 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BlockChain {
     private final Deque<Block> chain;
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public BlockChain() {
         this.chain = new LinkedList<>();
@@ -18,6 +24,7 @@ public class BlockChain {
     private Block createGenesisBlock() {
         return Block.builder()
                 .index(0)
+                .timeStamp(new Date())
                 .data("GenesisBlock")
                 .previousHash(null)
                 .build();
@@ -46,5 +53,16 @@ public class BlockChain {
         }
 
         return true;
+    }
+
+    public String printChain() {
+        return gson.toJson(chain);
+    }
+
+    public static BlockChain loadChain(String chainString) {
+        Type blockList = new TypeToken<LinkedList<Block>>(){}.getType();
+        Deque<Block> chain = new Gson().fromJson(chainString, blockList);
+
+        return new BlockChain(chain);
     }
 }
