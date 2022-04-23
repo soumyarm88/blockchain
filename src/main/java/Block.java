@@ -35,12 +35,8 @@ public class Block {
     }
 
     void mineBlock(int difficulty) {
-        if(difficulty<1) {
-            throw new IllegalArgumentException("Difficulty must be greater than 0.");
-        }
-
         String prefix = "0".repeat(difficulty);
-        while (!StringUtils.startsWith(this.hash, prefix)) {
+        while (StringUtils.isNotBlank(prefix) && !StringUtils.startsWith(this.hash, prefix)) {
             this.nonce++;
             this.hash = calculateHash();
         }
