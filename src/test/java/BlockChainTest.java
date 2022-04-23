@@ -21,28 +21,12 @@ public class BlockChainTest {
 
     @Test
     public void testAddingFewBlocks() {
-        String firstData = "First";
-        String secondData = "Second";
-        String thirdData = "Third";
         BlockChain blockChain = new BlockChain(DIFFICULTY);
 
-        // TimeUnit.SECONDS.sleep(2);
-        Block previousBlock = blockChain.getLatestBlock();
-        blockChain.addBlock(Block.builder().index(1).timeStamp(new Date()).data(firstData)
-                //.previousHash(previousBlock.getHash())
-                .build());
+        blockChain.addBlock(Block.builder().index(1).timeStamp(new Date()).data("First").build());
+        blockChain.addBlock(Block.builder().index(2).timeStamp(new Date()).data("Second").build());
+        blockChain.addBlock(Block.builder().index(3).timeStamp(new Date()).data("Third").build());
 
-        previousBlock = blockChain.getLatestBlock();
-        blockChain.addBlock(Block.builder().index(2).timeStamp(new Date()).data(secondData)
-                //.previousHash(previousBlock.getHash())
-                .build());
-
-        previousBlock = blockChain.getLatestBlock();
-        blockChain.addBlock(Block.builder().index(3).timeStamp(new Date()).data(thirdData)
-                //.previousHash(previousBlock.getHash())
-                .build());
-
-        assertEquals(thirdData, blockChain.getLatestBlock().getData());
         assertTrue(blockChain.isChainValid());
 
         System.out.println(blockChain.printChain());
@@ -50,29 +34,29 @@ public class BlockChainTest {
 
     @Test
     public void checkOriginalChainIsValid() {
-        BlockChain blockChain = loadChainFromStorage("SampleValidChain.js", DIFFICULTY);
+        BlockChain blockChain = loadChainFromStorage("SampleValidChain.js");
         assertTrue(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedChainIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithMissingBlock.js", DIFFICULTY);
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithMissingBlock.js");
         assertFalse(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedDataIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedData.js", DIFFICULTY);
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedData.js");
         assertFalse(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedDateIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedDate.js", DIFFICULTY);
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedDate.js");
         assertFalse(blockChain.isChainValid());
     }
 
-    private BlockChain loadChainFromStorage(String fileName, int difficulty) {
+    private BlockChain loadChainFromStorage(String fileName) {
         Path path = Path.of(RESOURCES_PATH,fileName);
         String serializedChain = null;
         try {
@@ -80,6 +64,6 @@ public class BlockChainTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return BlockChain.loadChain(serializedChain, difficulty);
+        return BlockChain.loadChain(serializedChain);
     }
 }

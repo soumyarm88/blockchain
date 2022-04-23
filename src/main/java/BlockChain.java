@@ -15,7 +15,6 @@ import java.util.LinkedList;
 public class BlockChain {
     private final Deque<Block> chain;
     private final int difficulty;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public BlockChain(int difficulty) {
         this.chain = new LinkedList<>();
@@ -65,13 +64,12 @@ public class BlockChain {
     }
 
     public String printChain() {
-        return gson.toJson(chain);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 
-    public static BlockChain loadChain(String chainString, int difficulty) {
-        Type blockList = new TypeToken<LinkedList<Block>>(){}.getType();
-        Deque<Block> chain = new Gson().fromJson(chainString, blockList);
-
-        return new BlockChain(chain, difficulty);
+    public static BlockChain loadChain(String chainString) {
+        Type blockChain = new TypeToken<BlockChain>(){}.getType();
+        return new Gson().fromJson(chainString, blockChain);
     }
 }

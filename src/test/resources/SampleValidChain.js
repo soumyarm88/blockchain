@@ -1,34 +1,37 @@
-[
-  {
-    "index": 0,
-    "timeStamp": "Apr 23, 2022, 3:28:34 PM",
-    "data": "GenesisBlock",
-    "hash": "0000094fae919355f00f37eb41d546a604c0bcd4f2fab712dae0e333e700ee9a",
-    "previousHash": "",
-    "nonce": 6261
-  },
-  {
-    "index": 1,
-    "timeStamp": "Apr 23, 2022, 3:28:34 PM",
-    "data": "First",
-    "hash": "00000a1235d482a333dca56f96c6300a52d15efdc76a90d2c0e0c5710eafcfcf",
-    "previousHash": "0000094fae919355f00f37eb41d546a604c0bcd4f2fab712dae0e333e700ee9a",
-    "nonce": 1296224
-  },
-  {
-    "index": 2,
-    "timeStamp": "Apr 23, 2022, 3:28:36 PM",
-    "data": "Second",
-    "hash": "00000b479259077919e9a7b1d8c53b20a9fe21acce854f82ac4cf90d4f262181",
-    "previousHash": "00000a1235d482a333dca56f96c6300a52d15efdc76a90d2c0e0c5710eafcfcf",
-    "nonce": 560139
-  },
-  {
-    "index": 3,
-    "timeStamp": "Apr 23, 2022, 3:28:37 PM",
-    "data": "Third",
-    "hash": "000004b10c0c679851c1dcb5d8c7a12b0415ecb886708908b377984dc36245bf",
-    "previousHash": "00000b479259077919e9a7b1d8c53b20a9fe21acce854f82ac4cf90d4f262181",
-    "nonce": 1220174
-  }
-]
+{
+  "chain": [
+    {
+      "index": 0,
+      "timeStamp": "Apr 23, 2022, 3:53:58 PM",
+      "data": "GenesisBlock",
+      "hash": "00000b10272caf9869d250a56c5b3262e3b5048d63c6b7f19da7a5c89dd9a81a",
+      "previousHash": "",
+      "nonce": 3757685
+    },
+    {
+      "index": 1,
+      "timeStamp": "Apr 23, 2022, 3:54:01 PM",
+      "data": "First",
+      "hash": "00000a078fa664cbec22b98bbe83c14b055e92b501da9f8f17a6360273ae8a89",
+      "previousHash": "00000b10272caf9869d250a56c5b3262e3b5048d63c6b7f19da7a5c89dd9a81a",
+      "nonce": 643641
+    },
+    {
+      "index": 2,
+      "timeStamp": "Apr 23, 2022, 3:54:02 PM",
+      "data": "Second",
+      "hash": "00000b347de53a959cec709c49cd72db6b0b29310947ff7644d6058dabdd8975",
+      "previousHash": "00000a078fa664cbec22b98bbe83c14b055e92b501da9f8f17a6360273ae8a89",
+      "nonce": 837865
+    },
+    {
+      "index": 3,
+      "timeStamp": "Apr 23, 2022, 3:54:03 PM",
+      "data": "Third",
+      "hash": "00000fa2244dc9b0bbe9fb7e0ed91b89a75e42b828d617d6cc63d37114440d23",
+      "previousHash": "00000b347de53a959cec709c49cd72db6b0b29310947ff7644d6058dabdd8975",
+      "nonce": 1267140
+    }
+  ],
+  "difficulty": 5
+}
