@@ -14,20 +14,25 @@ import java.util.LinkedList;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BlockChain {
     private final Deque<Block> chain;
+    private final int difficulty;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public BlockChain() {
+    public BlockChain(int difficulty) {
         this.chain = new LinkedList<>();
-        chain.add(createGenesisBlock());
+        this.difficulty = difficulty;
+        createGenesisBlock();
     }
 
-    private Block createGenesisBlock() {
-        return Block.builder()
+    private void createGenesisBlock() {
+        Block genesisBlock = Block.builder()
                 .index(0)
                 .timeStamp(new Date())
                 .data("GenesisBlock")
                 .previousHash(null)
                 .build();
+
+        genesisBlock.mineBlock(difficulty);
+        chain.add(genesisBlock);
     }
 
     public Block getLatestBlock() {
@@ -36,6 +41,7 @@ public class BlockChain {
 
     public void addBlock(Block block) {
         block.setPreviousHash(chain.peekLast().getHash());
+        block.mineBlock(difficulty);
         chain.add(block);
     }
 
@@ -62,10 +68,10 @@ public class BlockChain {
         return gson.toJson(chain);
     }
 
-    public static BlockChain loadChain(String chainString) {
+    public static BlockChain loadChain(String chainString, int difficulty) {
         Type blockList = new TypeToken<LinkedList<Block>>(){}.getType();
         Deque<Block> chain = new Gson().fromJson(chainString, blockList);
 
-        return new BlockChain(chain);
+        return new BlockChain(chain, difficulty);
     }
 }

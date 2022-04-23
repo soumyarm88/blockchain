@@ -1,5 +1,6 @@
 import com.google.common.hash.Hashing;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -13,6 +14,7 @@ public class Block {
     private String data;
     private String hash;
     private String previousHash;
+    private int nonce;
 
     @Builder
     public Block(int index, Date timeStamp, String data, String previousHash) {
@@ -20,12 +22,24 @@ public class Block {
         this.timeStamp = timeStamp;
         this.data = data;
         this.previousHash = Optional.ofNullable(previousHash).orElse("");
-        this.hash = calculateHash();
+        this.nonce = 0;
     }
 
     String calculateHash() {
         return Hashing.sha256().hashString(
-                this.index + this.getPreviousHash() + this.timeStamp.getTime() + this.data, StandardCharsets.UTF_8)
+                this.index + this.previousHash + this.timeStamp.toString() + this.data + this.nonce, StandardCharsets.UTF_8)
                 .toString();
+    }
+
+    public void mineBlock(int difficulty) {
+        if(difficulty<1) {
+            throw new IllegalArgumentException("Difficulty must be greater than 0.");
+        }
+
+        String prefix = "0".repeat(difficulty);
+        while (!StringUtils.startsWith(this.hash, prefix)) {
+            this.nonce++;
+            this.hash = calculateHash();
+        }
     }
 }
