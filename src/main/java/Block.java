@@ -34,7 +34,7 @@ public class Block {
                 .toString();
     }
 
-    public void mineBlock(int difficulty) {
+    void mineBlock(int difficulty) {
         if(difficulty<1) {
             throw new IllegalArgumentException("Difficulty must be greater than 0.");
         }
