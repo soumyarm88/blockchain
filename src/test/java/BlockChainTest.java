@@ -34,25 +34,25 @@ public class BlockChainTest {
 
     @Test
     public void checkOriginalChainIsValid() {
-        BlockChain blockChain = loadChainFromStorage("SampleValidChain.js");
+        BlockChain blockChain = loadChainFromStorage("SampleValidChain.json");
         assertTrue(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedChainIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithMissingBlock.js");
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithMissingBlock.json");
         assertFalse(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedDataIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedData.js");
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedData.json");
         assertFalse(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedDateIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedDate.js");
+        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedDate.json");
         assertFalse(blockChain.isChainValid());
     }
 
