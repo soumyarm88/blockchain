@@ -1,10 +1,11 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'maven-publish'
 }
 
 group 'tech.soumyarm88.lib'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -24,6 +25,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.0'
 }
 
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(23))
+}
+
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
@@ -33,10 +38,29 @@ jacocoTestReport {
     dependsOn test
 }
 
-
-
 jacoco {
     toolVersion = "0.8.13"
+}
+
+subprojects {
+    apply plugin: "maven-publish"
+    publishing {
+        repositories {
+            maven {
+                name = "BlockChain"
+                url = uri("https://maven.pkg.github.com/soumyarm88/blockchain")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+            }
+        }
+    }
 }
 
 

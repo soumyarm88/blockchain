@@ -1,3 +1,5 @@
+package tech.soumyarm88.lib.blockchain;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

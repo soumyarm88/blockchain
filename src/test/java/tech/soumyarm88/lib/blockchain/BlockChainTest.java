@@ -1,14 +1,16 @@
-import org.junit.jupiter.api.Test;
+package tech.soumyarm88.lib.blockchain;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import org.junit.jupiter.api.Test;
+import tech.soumyarm88.lib.testutil.ResourceLoader;
+
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BlockChainTest {
-    public static final String RESOURCES_PATH = "/Users/soumyarm/IdeaProjects/BlockChain/src/test/resources";
+    public static final String RESOURCES_PATH = "resources";
     public static int DIFFICULTY = 5;
 
     @Test
@@ -34,36 +36,30 @@ public class BlockChainTest {
 
     @Test
     public void checkOriginalChainIsValid() {
-        BlockChain blockChain = loadChainFromStorage("SampleValidChain.json");
+        BlockChain blockChain = loadChain("SampleValidChain.json");
         assertTrue(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedChainIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithMissingBlock.json");
+        BlockChain blockChain = loadChain("InvalidChainWithMissingBlock.json");
         assertFalse(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedDataIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedData.json");
+        BlockChain blockChain = loadChain("InvalidChainWithModifiedData.json");
         assertFalse(blockChain.isChainValid());
     }
 
     @Test
     public void checkModifiedDateIsInvalid() {
-        BlockChain blockChain = loadChainFromStorage("InvalidChainWithModifiedDate.json");
+        BlockChain blockChain = loadChain("InvalidChainWithModifiedDate.json");
         assertFalse(blockChain.isChainValid());
     }
 
-    private BlockChain loadChainFromStorage(String fileName) {
-        Path path = Path.of(RESOURCES_PATH,fileName);
-        String serializedChain = null;
-        try {
-            serializedChain = Files.readString(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private BlockChain loadChain(String fileName) {
+        String serializedChain = ResourceLoader.load(fileName);
         return BlockChain.loadChain(serializedChain);
     }
 }

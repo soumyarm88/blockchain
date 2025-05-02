@@ -1,3 +1,5 @@
+package tech.soumyarm88.lib.blockchain;
+
 import com.google.common.hash.Hashing;
 import lombok.AccessLevel;
 import lombok.Builder;
