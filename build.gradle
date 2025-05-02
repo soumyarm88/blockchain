@@ -3,7 +3,7 @@ plugins {
     id 'jacoco'
 }
 
-group 'org.example'
+group 'tech.soumyarm88.lib'
 version '1.0-SNAPSHOT'
 
 repositories {
